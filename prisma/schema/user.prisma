@@ -1,0 +1,19 @@
+enum Role {
+  STUDENT
+  MENTOR
+  ADMIN
+}
+
+model User {
+  user_id     String       @id @default(uuid())
+  email       String       @unique
+  password    String
+  name        String
+  role        Role         @default(STUDENT)
+  created_at  DateTime     @default(now())
+  updated_at  DateTime     @updatedAt
+  submissions Submission[]
+  reviews     Review[]
+
+  @@map("users")
+}

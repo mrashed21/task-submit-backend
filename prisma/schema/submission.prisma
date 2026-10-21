@@ -1,0 +1,21 @@
+enum SubmissionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model Submission {
+  submission_id String           @id @default(uuid())
+  project_name  String
+  repo_url      String
+  live_link     String
+  description   String           @db.Text
+  status        SubmissionStatus @default(PENDING)
+  user_id       String
+  user          User             @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  created_at    DateTime         @default(now())
+  updated_at    DateTime         @updatedAt
+  reviews       Review[]
+
+  @@map("submissions")
+}

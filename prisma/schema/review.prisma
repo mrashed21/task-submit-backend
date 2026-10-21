@@ -1,0 +1,14 @@
+model Review {
+  review_id     String           @id @default(uuid())
+  submission_id String
+  submission    Submission       @relation(fields: [submission_id], references: [submission_id], onDelete: Cascade)
+  user_id       String
+  mentor        User             @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  status        SubmissionStatus
+  feedback      String           @db.Text
+  review_date   DateTime         @default(now())
+  created_at    DateTime         @default(now())
+  updated_at    DateTime         @updatedAt
+
+  @@map("reviews")
+}
