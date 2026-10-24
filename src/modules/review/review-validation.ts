@@ -9,6 +9,6 @@ export const reviewSubmissionValidationSchema = z.object({
       .string({ required_error: "Feedback is required" })
       .trim()
       .min(5, "Feedback must be at least 5 characters long")
-      .max(1500, "Feedback cannot exceed 1500 characters"),
+      .max(20000, "Feedback cannot exceed 20000 characters"),
   }),
 });

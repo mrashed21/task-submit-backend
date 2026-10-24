@@ -6,6 +6,7 @@ interface CreateSubmissionInput {
   project_name: string;
   repo_url: string;
   live_link: string;
+  additional_links?: Array<{ title: string; url: string }>;
   description: string;
 }
 
@@ -61,15 +62,21 @@ export const createSubmission = async (
     );
   }
 
+  const createData: any = {
+    user_id: userId,
+    project_name: payload.project_name.trim(),
+    repo_url: normalizedRepoUrl,
+    live_link: payload.live_link.trim(),
+    description: payload.description.trim(),
+    status: SubmissionStatus.PENDING,
+  };
+
+  if (payload.additional_links && payload.additional_links.length > 0) {
+    createData.additional_links = payload.additional_links;
+  }
+
   const submission = await prisma.submission.create({
-    data: {
-      user_id: userId,
-      project_name: payload.project_name.trim(),
-      repo_url: normalizedRepoUrl,
-      live_link: payload.live_link.trim(),
-      description: payload.description.trim(),
-      status: SubmissionStatus.PENDING,
-    },
+    data: createData,
     include: {
       user: {
         select: {

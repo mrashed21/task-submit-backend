@@ -22,11 +22,19 @@ export const createSubmissionValidationSchema = z.object({
       .string({ required_error: "Live demo link is required" })
       .trim()
       .url("Live demo link must be a valid URL"),
+    additional_links: z
+      .array(
+        z.object({
+          title: z.string().trim().min(1, "Link title/label is required"),
+          url: z.string().trim().url("Must be a valid URL"),
+        })
+      )
+      .optional(),
     description: z
       .string({ required_error: "Project description is required" })
       .trim()
       .min(20, "Description must be at least 20 characters to explain the project adequately")
-      .max(2000, "Description cannot exceed 2000 characters"),
+      .max(50000, "Description cannot exceed 50000 characters"),
   }),
 });
 
